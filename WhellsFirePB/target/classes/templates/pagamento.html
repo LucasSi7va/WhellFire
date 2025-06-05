@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pagamento</title>
+</head>
+<body>
+<div class="payment-container">
+    <h1>Finalizar Pagamento</h1>
+    <form class="payment-form">
+        <div class="form-group">
+            <label for="card-number">Número do Cartão:</label>
+            <input type="text" id="card-number" placeholder="**** **** **** ****" maxlength="19" required>
+        </div>
+        <div class="form-group">
+            <label for="card-name">Nome no Cartão:</label>
+            <input type="text" id="card-name" placeholder="Nome Completo" required>
+        </div>
+        <div class="form-group group-inline">
+            <div class="form-sub-group">
+                <label for="expiry-date">Validade:</label>
+                <input type="text" id="expiry-date" placeholder="MM/AA" maxlength="5" required>
+            </div>
+            <div class="form-sub-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" placeholder="***" maxlength="4" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="installments">Parcelas:</label>
+            <select id="installments">
+                <option value="1">1x sem juros</option>
+                <option value="2">2x sem juros</option>
+                <option value="3">3x sem juros</option>
+                <option value="4">4x</option>
+                <option value="5">5x</option>
+                <option value="6">6x</option>
+                <option value="7">7x</option>
+                <option value="8">8x</option>
+                <option value="9">9x</option>
+                <option value="10">10x</option>
+                <option value="11">11x</option>
+                <option value="12">12x</option>
+            </select>
+        </div>
+        <button type="submit" class="submit-button">Pagar Agora</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const cardNumberInput = document.getElementById('card-number');
+    const expiryDateInput = document.getElementById('expiry-date');
+
+
+    cardNumberInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
+
+        for (let i = 0; i < value.length; i++) {
+            if (i > 0 && i % 4 === 0) {
+                formattedValue += ' '; // Adiciona espaço a cada 4 dígitos
+            }
+            formattedValue += value[i];
+        }
+        e.target.value = formattedValue.trim(); // Remove espaço extra no final
+    });
+
+
+    expiryDateInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        let formattedValue = '';
+
+        if (value.length > 2) {
+            formattedValue = value.substring(0, 2) + '/' + value.substring(2, 4);
+        } else {
+            formattedValue = value;
+        }
+        e.target.value = formattedValue;
+    });
+
+
+    expiryDateInput.addEventListener('blur', function(e) {
+        let value = e.target.value;
+        const [month, year] = value.split('/');
+
+        if (month && year) {
+            const currentYear = new Date().getFullYear() % 100;
+            const currentMonth = new Date().getMonth() + 1;
+
+            const expiryMonth = parseInt(month, 10);
+            const expiryYear = parseInt(year, 10);
+
+            let isValid = true;
+
+
+            if (expiryMonth < 1 || expiryMonth > 12) {
+                isValid = false;
+            }
+
+
+            if (expiryYear < currentYear || (expiryYear === currentYear && expiryMonth < currentMonth)) {
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.target.setCustomValidity('Data de validade inválida.');
+            } else {
+                e.target.setCustomValidity('');
+            }
+        } else {
+            e.target.setCustomValidity('Formato inválido (MM/AA).');
+        }
+    });
+});
+</script>
+
+
+
+</body>
+</html>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    }
+
+    .payment-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    }
+
+    h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    }
+
+    .form-group {
+    margin-bottom: 18px;
+    }
+
+    .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    }
+
+    .form-group input[type="text"]:focus,
+    .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    .group-inline {
+    display: flex;
+    gap: 15px;
+    }
+
+    .group-inline .form-sub-group {
+    flex: 1;
+    }
+
+    .submit-button {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    }
+
+    .submit-button:hover {
+    background-color: #218838;
+    }
+
+
+    @media (max-width: 600px) {
+    .payment-container {
+    margin: 20px;
+    padding: 25px;
+    }
+
+    .group-inline {
+    flex-direction: column;
+    gap: 0;
+    }
+
+    .group-inline .form-sub-group {
+    margin-bottom: 18px;
+    }
+    }
+</style>

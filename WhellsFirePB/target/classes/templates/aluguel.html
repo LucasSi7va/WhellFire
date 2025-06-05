@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário com Animação</title>
+
+</head>
+<body>
+
+<form>
+  <label for="inicio">Insira o início da data:</label>
+  <input type="datetime-local" id="inicio" name="inicio" />
+
+  <label for="entrega">Insira a data de entrega:</label>
+  <input type="datetime-local" id="entrega" name="entrega" />
+  <a href="pagamento.html">
+  <button type="submit">Agendar</button>
+  </a>
+</form>
+
+</body>
+</html>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: url(https://i.pinimg.com/originals/13/97/73/139773d9a62c4188bf7edb4c8731a536.jpg);
+  background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    animation: fadeIn 1.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  form {
+    background-color: #981818;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    animation: slideUp 1.5s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: white;
+  }
+
+  input[type="datetime-local"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #b2dfdb;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="datetime-local"]:focus {
+    border-color: white;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 121, 107, 0.3);
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background-color: white;
+    transform: scale(1.05);
+  }
+</style>
