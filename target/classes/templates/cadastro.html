@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+</head>
+<body>
+<h1>Cadastro</h1>
+<form th:action="@{/cadastro}" method="post">
+    <label >Nome:</label>
+    <input   type="text"  name="nome"  id="nome"   required>
+    <br>
+    <label >Email:</label>
+    <input type="email"  name="email"  id="email" required>
+    <br>
+    <label >Senha:</label>
+    <input type="password"  name="senha"  id="senha"  required>
+    <br>
+    <label >Confirme a senha:</label>
+    <input type="password"  name="confirmarSenha"  id="confirmarSenha" required>
+
+    <label >Endereço:</label>
+    <input type="text"  name="endereco"  id="endereco" required>
+    <br>
+    <label >CPF:</label>
+    <input type="text"  name="cpf"  id="cpf" required>
+
+    <button type="submit"  id="submit" >Enviar</button>
+
+    <div class="register">
+        <p>ja tem uma conta? <a href="login.html">volte para o login</a></p>
+    </div>
+
+</form>
+
+<script>
+const submitButton = document.getElementById('submit');
+submitButton.addEventListener('click', function(event) {
+  event.preventDefault(); 
+
+  const username = document.getElementById('nome').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('senha').value;
+  const confirm = document.getElementById('confirmarSenha').value;
+  const address = document.getElementById('endereco').value;
+  const cpf = document.getElementById('cpf').value;
+
+  if(password !== confirm) {
+    alert("As senhas não coincidem!");
+    return;
+  }
+
+  const data = {
+    nome: username,
+    email: email,
+    senha: password,
+    endereco: address,
+    cpf: cpf
+  };
+
+  fetch('/cadastro', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+  if (response.ok) {
+    alert("Cadastro realizado com sucesso!");
+    window.location.href = "/login"; 
+  } else {
+    alert("Erro no cadastro.");
+  }
+})
+});
+</script>
+
+
+</body>
+</html>
+
+<style> * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-image: url("https://media.istockphoto.com/id/866882440/pt/foto/real-fire-flames-and-sparks-particles-isolated-on-black.jpg?s=612x612&w=0&k=20&c=_vjnA0XjcRI-8t8I3_IQjxauR-wn8dBmQceMV4c09jU=");
+  background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      margin-top: 15px;
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+</style>
